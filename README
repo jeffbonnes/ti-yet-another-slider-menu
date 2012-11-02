@@ -1,8 +1,4 @@
-ti-yet-another-slider-menu
-==========================
-
-An sample 'Facebook' style slider for Titanium
-
+A sample cross platform slider for Titanium
 
 This works a bit different to other ones I have seen in that you pass it a
 function used to create the Window (not the window itself) the slider will
