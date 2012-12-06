@@ -17,6 +17,12 @@ exports.createNavigationWindow = function(baseWindow) {
 			window : baseWindow
 		});
 		me.add(me.nav);
+		me.addEventListener('focus', function(e) {
+			baseWindow.fireEvent('focus', e);
+		});
+		me.addEventListener('blur', function(e) {
+			baseWindow.fireEvent('blur', e);
+		});
 		windows.push(baseWindow);
 	};
 
@@ -30,10 +36,10 @@ exports.createNavigationWindow = function(baseWindow) {
 		} else {
 			me.nav.close(lastWindow);
 		}
-		windows.pop();
 	};
 
 	me.openNextWindow = function(/*Ti.UI.Window*/windowToOpen) {
+		windowToOpen.nav = me;
 		if (isAndroid) {
 			windowToOpen.open({
 				animated : true
@@ -42,6 +48,11 @@ exports.createNavigationWindow = function(baseWindow) {
 			me.nav.open(windowToOpen);
 		}
 		windows.push(windowToOpen);
+		windowToOpen.addEventListener('close', function(e) {
+			windows.pop();
+			windowToOpen.nav = null;
+			windowToOpen = null;
+		});
 		Ti.API.debug('total windows=' + windows.length);
 	};
 

@@ -92,6 +92,9 @@ table.addEventListener('click', function(e) {
 baseWindow.add(table);
 baseWindow.add(slider);
 
+// You can preload windows as well
+slider.preLoadWindow(3);
+
 var started = false;
 
 baseWindow.addEventListener('open', function() {
