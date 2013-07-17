@@ -77,15 +77,20 @@ exports.createSlider = function() {
 				tapCatcher.close();
 			}
 			Ti.API.debug('closing slider');
-			visibleWindow.animate({
-				left : 0,
-				duration : ANIMATION_DURATION,
-				curve : Ti.UI.ANIMATION_CURVE_EASE_IN_OUT
-			}, function() {
-				visibleWindow.left = 0;
+			if (visibleWindow) {
+				visibleWindow.animate({
+					left : 0,
+					duration : ANIMATION_DURATION,
+					curve : Ti.UI.ANIMATION_CURVE_EASE_IN_OUT
+				}, function() {
+					visibleWindow.left = 0;
+					status = STATUS.CLOSED;
+					slider.fireEvent('close');
+				});
+			} else {
 				status = STATUS.CLOSED;
 				slider.fireEvent('close');
-			});
+			}
 		} else {
 			Ti.API.debug('slider is already closed or animating');
 		}
@@ -97,7 +102,7 @@ exports.createSlider = function() {
 		// the slider
 		var nav = visibleWindow.nav;
 		var windowCount = nav.windowCount();
-		Ti.API.debug( 'windowCount=' + windowCount );
+		Ti.API.debug('windowCount=' + windowCount);
 		if (windowCount > 1) {
 			nav.closeTopWindow();
 		} else {
@@ -153,7 +158,7 @@ exports.createSlider = function() {
 				backgroundColor : 'black',
 				textAlign : 'center',
 				color : 'white',
-				width: Ti.UI.FILL,
+				width : Ti.UI.FILL,
 				text : win.title
 			});
 			win.add(titleBar);
@@ -171,7 +176,12 @@ exports.createSlider = function() {
 			//Can't do in both because causes crash in Android
 			// When you try to animate it
 		}
-		proxy.window.left = OPEN_LEFT;
+		if (status == STATUS.CLOSED) {
+			proxy.window.left = 0;
+
+		} else {
+			proxy.window.left = OPEN_LEFT;
+		}
 		proxy.window.width = Ti.Platform.displayCaps.platformWidth;
 	}
 

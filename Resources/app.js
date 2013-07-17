@@ -81,7 +81,9 @@ _.each(data, function(obj, i) {
 	});
 });
 
-var table = Ti.UI.createTableView();
+var table = Ti.UI.createTableView({
+	rowHeight : '44dp'
+});
 table.setData(tableData);
 
 table.addEventListener('click', function(e) {
@@ -95,6 +97,9 @@ baseWindow.add(slider);
 // You can preload windows as well
 slider.preLoadWindow(3);
 
+// UN REM if you want it to start closed
+//slider.close();
+
 var started = false;
 
 baseWindow.addEventListener('open', function() {
@@ -106,6 +111,7 @@ baseWindow.addEventListener('open', function() {
 		slider.showWindow(0);
 		started = true;
 	}
+
 });
 
 function listenForBackButton() {
