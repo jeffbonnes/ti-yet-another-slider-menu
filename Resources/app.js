@@ -81,6 +81,14 @@ _.each(data, function(obj, i) {
 	});
 });
 
+// Test a long window
+slider.addWindow({
+	createFunction : require('/ui/longContent').createLongWindow
+});
+tableData.push({
+	title : "Long Window"
+});
+
 var table = Ti.UI.createTableView({
 	rowHeight : '44dp'
 });

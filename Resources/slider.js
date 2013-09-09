@@ -132,10 +132,15 @@ exports.createSlider = function() {
 		// Window has not been created yet
 		var win = proxy.createFunction();
 		if (Ti.Platform.osname != 'android') {
-			win.addEventListener('swipe', function(e) {
-				if (e.direction == 'right') {
-					slider.open();
-				}
+			// Need to add swipe after open or scrolling
+			// doesn't work on long windows
+			win.addEventListener('open', function() {
+				win.addEventListener('swipe', function(e) {
+					if (e.direction == 'right') {
+						slider.open();
+					}
+				});
+
 			});
 		}
 		proxy.window = require('navWindow').createNavigationWindow(win);
